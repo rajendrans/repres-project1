@@ -1,0 +1,24 @@
+# Reproduce Research - project 1
+
+Load required libraries
+
+
+```{r message=FALSE}
+  library(dplyr)
+```
+
+Read data from the file
+
+```{r}
+activity_data <- read.csv("activity.csv")
+```
+
+Calculate steps per day and plot histogram
+
+```{r}
+daily_activity <- with(activity_data, 
+                tapply(steps, date, sum, na.rm=TRUE))
+daily_activity <- data.frame(date=names(daily_activity), steps=daily_activity)
+hist(daily_activity$steps, main = "Activity Summary", xlab = "Steps", ylab = "")
+```
+
