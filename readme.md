@@ -1,6 +1,5 @@
 # Reproduce Research - project 1
 
-
 Load required libraries
 
 
@@ -31,18 +30,17 @@ hist(daily_activity$steps, main = "Activity Summary", xlab = "Steps", ylab = "")
 
 ![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png)
 
-**3. Mean and meadian steps of each day**
+**3. Mean and median steps of each day**
 
 
 ```
-##          date        steps      
-##  2012-10-01: 1   Min.   :    0  
-##  2012-10-02: 1   1st Qu.: 6778  
-##  2012-10-03: 1   Median :10395  
-##  2012-10-04: 1   Mean   : 9354  
-##  2012-10-05: 1   3rd Qu.:12811  
-##  2012-10-06: 1   Max.   :21194  
-##  (Other)   :55
+## 2012-10-01 2012-10-02 2012-10-03 2012-10-04 2012-10-05 2012-10-06 
+##          0        126      11352      12116      13294      15420
+```
+
+```
+## 2012-10-01 2012-10-02 2012-10-03 2012-10-04 2012-10-05 2012-10-06 
+##          0        126      11352      12116      13294      15420
 ```
 
 Calculate time interval's average steps
@@ -105,18 +103,17 @@ for( i in 1:nrow(daily_mean)) {
 ![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10-1.png)
 
 
-Mean and meadian of imputed data
+Mean and median of imputed data
 
 
 ```
-##          date        steps      
-##  2012-10-01: 1   Min.   :    0  
-##  2012-10-02: 1   1st Qu.: 6778  
-##  2012-10-03: 1   Median :10395  
-##  2012-10-04: 1   Mean   : 9354  
-##  2012-10-05: 1   3rd Qu.:12811  
-##  2012-10-06: 1   Max.   :21194  
-##  (Other)   :55
+## 2012-10-01 2012-10-02 2012-10-03 2012-10-04 2012-10-05 2012-10-06 
+##          0        126      11352      12116      13294      15420
+```
+
+```
+## 2012-10-01 2012-10-02 2012-10-03 2012-10-04 2012-10-05 2012-10-06 
+##          0        126      11352      12116      13294      15420
 ```
 
 Based the comparision of the mean and meadian with same in section 3
