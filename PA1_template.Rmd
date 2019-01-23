@@ -1,11 +1,12 @@
 # Reproduce Research - project 1
 
+
 Load required libraries
 
 
 ```{r message=FALSE}
-  library(dplyr)
-  library(data.table)
+library(dplyr)
+library("ggplot2")
 ```
 
 **1. Read data from the file**
@@ -20,7 +21,7 @@ Calculate steps per day and
 
 ```{r}
 daily_activity <- with(activity_data, 
-                tapply(steps, date, sum, na.rm=TRUE))
+                       tapply(steps, date, sum, na.rm=TRUE))
 daily_activity <- data.frame(date=names(daily_activity), steps=daily_activity)
 hist(daily_activity$steps, main = "Activity Summary", xlab = "Steps", ylab = "")
 ```
@@ -46,49 +47,85 @@ plot.ts(time_activity, plot.type=c("single"), ylab="Steps", xlab="Time Interval"
 ```{r echo=FALSE}
 as.numeric(time_activity[which.max(time_activity$steps),1])/5
 ```
-  
-  
-      
+
+
+
 ### 6. Imputing missing values
 
 The total number of missing data is
 ```{r echo=FALSE}
 sum(is.na(activity_data$steps))
 ```
-  
-  
+
+
 The missing values are reported as NA.
 These missing / NA values are replaced by the daily avarage 
 of on that day.
-  
+
 If the activities were missing/NA then the daily average for 
 that day is calculated as 0.
-  
-  
+
+
 The following algorithem used to update the impute data.  
 
 ```{r}
 impute_data <- read.csv("activity.csv")
 daily_mean <- with(impute_data, 
-                tapply(steps, date, mean, na.rm=TRUE))
+                   tapply(steps, date, mean, na.rm=TRUE))
 daily_mean <- data.frame(date=names(daily_mean), steps=daily_mean)
 
 daily_mean$steps[is.nan(daily_mean$steps)] <- 0
 for( i in 1:nrow(daily_mean)) {
-   ind <- impute_data$date == daily_mean$date[i] & is.na(impute_data$steps)
-   impute_data[ind, 1] <- daily_mean$steps[i]
+      ind <- impute_data$date == daily_mean$date[i] & is.na(impute_data$steps)
+      impute_data[ind, 1] <- daily_mean$steps[i]
 }
 
 ```
-  
+
 
 ```{r echo=FALSE}
-impute_data <- with(impute_data, 
-                tapply(steps, date, sum, na.rm=TRUE))
-impute_data <- data.frame(date=names(impute_data), steps=impute_data)
-hist(impute_data$steps, main = "7. Histogram of imputed data", xlab = "Steps", ylab = "")
+impute_daily_data <- with(impute_data, 
+                          tapply(steps, date, sum, na.rm=TRUE))
+impute_daily_data <- data.frame(date=names(impute_daily_data), steps=impute_daily_data)
+hist(impute_daily_data$steps, main = "7. Histogram of imputed data", xlab = "Steps", ylab = "")
 ```
 
-  
-  
-  
+
+Mean and meadian of imputed data
+
+```{r echo=FALSE}
+summary(impute_daily_data)
+```
+
+Based the comparision of the mean and meadian with same in section 3
+there is no change.
+
+The impact of adding the daily average to the missing data is nothing.
+It could be the result, either if there is missing data on a day all the data is missing or there no data is missing on a day
+
+
+
+
+
+**8. Differences in activity patterns between weekdays and weekends**         
+```{r}  
+impute_data$date <- as.Date(impute_data$date)
+impute_data$day <- ""
+names(impute_data)[3] <- "Time"
+
+weekdays <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+weekenddays <- c("Saturday", "Sunday")
+
+impute_data$day[weekdays(impute_data$date) %in% weekdays] <- "Weekday"
+impute_data$day[weekdays(impute_data$date) %in% weekenddays] <- "Weekendday"
+
+ggplot(impute_data, aes(x=Time, y=steps))+
+      geom_line()+
+      facet_wrap(~day)+
+      labs(x = "Time", 
+           y = "Steps", 
+           title="Time series of imputed data")
+
+
+```
+
