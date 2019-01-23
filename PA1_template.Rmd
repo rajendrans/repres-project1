@@ -63,7 +63,7 @@ The missing values are reported as NA.
 These missing / NA values are replaced by the daily avarage 
 of on that day.
 
-If the activities were missing/NA then the daily average for 
+If ALL the activities were missing/NA then the daily average for 
 that day is calculated as 0.
 
 
