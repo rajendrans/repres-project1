@@ -1,6 +1,5 @@
 # Reproduce Research - project 1
 
-
 Load required libraries
 
 
@@ -26,10 +25,12 @@ daily_activity <- data.frame(date=names(daily_activity), steps=daily_activity)
 hist(daily_activity$steps, main = "Activity Summary", xlab = "Steps", ylab = "")
 ```
 
-**3. Mean and meadian steps of each day**
+**3. Mean and median steps of each day**
 
 ```{r echo=FALSE}
-summary(daily_activity)
+head(with(daily_activity, tapply(steps, date, mean, na.rm = T)))
+
+head(with(daily_activity, tapply(steps, date, median, na.rm = T)))
 ```
 
 Calculate time interval's average steps
@@ -91,10 +92,12 @@ hist(impute_daily_data$steps, main = "7. Histogram of imputed data", xlab = "Ste
 ```
 
 
-Mean and meadian of imputed data
+Mean and median of imputed data
 
 ```{r echo=FALSE}
-summary(impute_daily_data)
+head(with(impute_daily_data, tapply(steps, date, mean, na.rm = T)))
+
+head(with(impute_daily_data, tapply(steps, date, median, na.rm = T)))
 ```
 
 Based the comparision of the mean and meadian with same in section 3
